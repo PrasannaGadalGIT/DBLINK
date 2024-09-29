@@ -1,4 +1,3 @@
-"use client"
 import React from 'react';
 import { DollarSign, FileText, Clipboard, Users, Link } from 'lucide-react';
 
@@ -28,7 +27,7 @@ const features = [
 const PageSection: React.FC = () => {
   return (
     <div className="flex flex-col items-center mt-24 mb-8 px-4 sm:px-8 lg:px-12">
-      <h2 className="text-4xl font-bold text-center mb-8">
+      <h2 className="lg:text-4xl font-bold text-center mb-8 text-3xl">
         A refreshingly simple end-to-end fundraising solution built to help you raise more
       </h2>
       <div className="flex flex-wrap justify-center gap-8">

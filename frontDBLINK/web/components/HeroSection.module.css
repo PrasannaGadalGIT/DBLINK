@@ -55,8 +55,7 @@
   position: relative;
   z-index: 1; /* Ensure video is above the gradient background */
 }
-
-/* Media Queries for Responsiveness */
+/*Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .heroSectionContent {
       justify-content: flex-start;
@@ -66,18 +65,20 @@
 
 @media (max-width: 480px) {
   .heroTitle {
-      font-size: 4rem;
-      margin-top: 0.5rem; /* Reduced margin to decrease the gap */
+      font-size: 3.5rem;
+      line-height: 1;
+      margin-top: 0%;
   }
 
   .heroDescription {
-      font-size: 1.5rem;
+      font-size: 0.8rem;
+      line-height: 0.5;
   }
 
   .heroButton {
-      padding: 1rem 1.5rem;
-      font-size: 1.5rem;
-      margin-top: 20px;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      margin-top: 0%;
   }
   .videoContainer {
     position: relative;
@@ -89,8 +90,8 @@
   .videoContainer video {
     display: block;
     width: 400px;
-    height: 200px;
-    bottom: 4rem;
+    height: 180px;
+    bottom: 2rem;
     border-radius: 8px; /* Adjust this if needed */
     position:absolute;
     z-index: 1; /* Ensure video is above the gradient background */

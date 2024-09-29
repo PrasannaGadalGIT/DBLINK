@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 py-3 bg-black bg-opacity-50 backdrop-blur-lg border-b border-neutral-700/80">
+    <nav className="sticky top-0 z-50 py-3 bg-black bg-opacity-50 backdrop-blur-lg border-b border-neutral-700/80 ">
       <div className="container px-4 mx-auto flex justify-between items-center text-sm">
         <div className="flex items-center flex-shrink-0 text-purple-600 font-bold">
           <Image src={logo} height={48} width={56} alt="DBLINK logo" />

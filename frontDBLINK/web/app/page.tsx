@@ -1,13 +1,9 @@
 
-import FeatureSection from "@/components/FeatureSection";
-import HeroSection from "@/components/HeroSection";
-import PageSection from "@/components/PageSection";
-export default function Home() {
+import Home from "../components/Home";
+export default function Main() {
   return (
     <>
-     <HeroSection/>
-  <FeatureSection/>
-  <PageSection/>
+    <Home/>
     </>
  
   );

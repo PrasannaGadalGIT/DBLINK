@@ -13,7 +13,7 @@ const FeatureSection: React.FC = () => {
             <Image
               src={supportImage}
               alt="Support"
-              className="rounded-full object-cover w-[430px] h-[430px] mb-6"
+              className="rounded-full object-cover w-[410px] h-[410px] mb-6"
             />
             <Image
               src={dpeople}

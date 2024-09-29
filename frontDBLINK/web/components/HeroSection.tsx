@@ -13,14 +13,19 @@ const HeroSection: React.FC = () => {
         muted
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
-      <div className={`absolute inset-0 flex flex-col items-center justify-start text-white bg-black bg-opacity-50 ${styles.heroSectionContent} pt-20`}>
+      <div className={`absolute inset-0 flex flex-col items-center justify-start text-white bg-black bg-opacity-50 ${styles.heroSectionContent} pt-10`}>
         <div className="text-center px-4">
-          <h1 className={`text-5xl md:text-7xl sm:text-3xl font-bold mb-4 leading-tight ${styles.heroTitle}`}>
+          <h1 className={`text-5xl md:text-7xl  font-bold mb-4 leading-tight ${styles.heroTitle}`}>
             Welcome to <span className="text-purple-500">DBLINK 🙏</span>
           </h1>
-          <p className={`mt-4 text-2xl md:text-2xl sm:text-2xl ${styles.heroDescription}`}>
-            Your support makes a difference! Join us in making an impact today 🤝.
-          </p>
+          <div className="container mx-auto p-4" style={{ width: '90%' }}>
+      <p className="mt-2 text-lg md:text-xl lg:text-xl text-white leading-relaxed">
+        This is our Donation and Campaign Registration Platform, a dedicated space where generous individuals, groups and organizations can come
+        together to make a positive impact through donations and by registering for meaningful several campaigns. 
+        Your support makes a difference! Join us in making an impact today 🤝.
+      </p>
+    </div>
+
           <div className="flex justify-center items-center mt-6">
             <button className={`py-4 px-6 text-xl md:text-2xl sm:text-base ${styles.heroButton}`}>
               Donate Now

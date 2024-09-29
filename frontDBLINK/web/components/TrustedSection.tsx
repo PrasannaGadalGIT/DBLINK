@@ -6,16 +6,16 @@ const TrustedSection: React.FC = () => {
   return (
     <section className="relative bg-purple-400 text-white py-16 text-center overflow-hidden">
       <div className="container mx-auto">
-        <h1 className="text-4xl font-bold mb-8">
+        <h1 className="lg:text-4xl font-bold mb-8 text-3xl ">
           Trusted by thousands of organizations, schools, and churches
         </h1>
         <div className="flex justify-center gap-10 mb-4">
-          <ul className="list-none text-lg">
+          <ul className="list-none lg:text-lg text-sm">
             <li className="mb-4">✔️ SECURE FORMS & CAMPAIGN PAGES</li>
             <li className="mb-4">✔️ 5 MINUTES TO SIGN UP</li>
             <li className="mb-4">✔️ INTEGRATE WITH EASE</li>
           </ul>
-          <ul className="list-none text-lg">
+          <ul className="list-none lg:text-lg text-sm">
             <li className="mb-4">✔️ NO SETUP FEES OR HIDDEN COSTS</li>
             <li className="mb-4">✔️ NO LIMITED FUNCTIONS</li>
             <li className="mb-4">✔️ NO CONTRACTS</li>
