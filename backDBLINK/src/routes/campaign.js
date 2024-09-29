@@ -1,7 +1,8 @@
 const express = require("express")
 const app = express.Router()
-const CampaignController = require('../controller/campaign')
+const Campaign = require('../controller/campaign')
+// const CampaignController = require('../controller/campaign')
+app.post('/addCampign', Campaign.addToPost)
 
-app.post('/test', CampaignController.test)
 
 module.exports = app
