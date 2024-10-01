@@ -5,6 +5,7 @@
 html,
 body {
   height: 100%;
+  background-color: black;
 }
 
 .wallet-adapter-button-trigger {
@@ -13,7 +14,31 @@ body {
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
+.wallet-adapter-button-trigger:hover{
+  background: rgb(81, 23, 181) !important;
+}
 .wallet-adapter-dropdown-list,
 .wallet-adapter-button {
   font-family: inherit !important;
+}
+.dropdown{
+  color: black;
+}
+.max-w-2xl h1{
+  color: white;
+}
+.max-w-2xl p{
+  color: white;
+}
+th{
+  color: white;
+}
+span{
+  color: white;
+}
+.text-xl {
+  color: black;
+}
+.text-xs {
+  color: black;
 }

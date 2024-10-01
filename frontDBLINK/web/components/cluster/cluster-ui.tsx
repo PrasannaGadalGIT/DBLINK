@@ -1,5 +1,4 @@
 'use client';
-
 import { useConnection } from '@solana/wallet-adapter-react';
 import { IconTrash } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
