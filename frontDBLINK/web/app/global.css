@@ -6,39 +6,33 @@ html,
 body {
   height: 100%;
   background-color: black;
+  color: black !important;
 }
 
 .wallet-adapter-button-trigger {
-  background: rgb(100, 26, 230) !important;
+  background: #f9c134!important;
   border-radius: 8px !important;
   padding-left: 16px !important;
   padding-right: 16px !important;
+  color: black!important;
 }
 .wallet-adapter-button-trigger:hover{
-  background: rgb(81, 23, 181) !important;
+  background: #eec459!important;
 }
 .wallet-adapter-dropdown-list,
 .wallet-adapter-button {
   font-family: inherit !important;
 }
-.dropdown{
-  color: black;
+ .dropdown{
+  color: black !important;
 }
+
 .max-w-2xl h1{
-  color: white;
+  color:#f9c134;
 }
 .max-w-2xl p{
-  color: white;
+  color:#f9c134;
 }
 th{
-  color: white;
-}
-span{
-  color: white;
-}
-.text-xl {
-  color: black;
-}
-.text-xs {
-  color: black;
+  color: #f9c134;
 }
