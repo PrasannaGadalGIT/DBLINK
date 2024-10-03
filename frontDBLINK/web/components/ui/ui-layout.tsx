@@ -1,5 +1,4 @@
-'use client';
-
+"use client";
 import Image from 'next/image';
 import logo from '../../public/logo.png';
 import facebookIcon from '../../public/facebook.png';
@@ -19,7 +18,9 @@ import {
 } from '../cluster/cluster-ui';
 import toast, { Toaster } from 'react-hot-toast';
 import { AppHero } from '../ui/AppHero'; 
-import ExploreEvent from '../ui/ExploreEvent';
+import ExploreEvent from'../ui/ExploreEvent';
+import AboutUs from '../AboutUs';
+import MerchandiseStore from '../MerchandiseStore';
 interface AppModalProps {
   title: string; // The title of the modal
   hide: () => void; // Function to hide the modal
@@ -28,6 +29,7 @@ interface AppModalProps {
   submitLabel: string; // Label for the submit button
   children: React.ReactNode; // Children elements to render inside the modal
 }
+
 export const AppModal: React.FC<AppModalProps> = ({ title, hide, show, submit, submitLabel, children }) => {
   if (!show) return null;
 
@@ -40,6 +42,7 @@ export const AppModal: React.FC<AppModalProps> = ({ title, hide, show, submit, s
     </div>
   );
 };
+
 const UILayout: React.FC = () => {
   return (
     <div>
@@ -65,6 +68,7 @@ export const ellipsify = (text: string, maxLength: number = 20): string => {
   }
   return text;
 };
+
 export function UiLayout({
   children,
   links,
@@ -72,27 +76,48 @@ export function UiLayout({
   children: ReactNode;
   links: { label: string; path: string }[];
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() || ''; // Provide a fallback to an empty string
 
   return (
-  
     <div className="flex flex-col bg-black">
-      <div className="navbar sticky top-0 z-40 text-yellow-500 flex-col md:flex-row space-y-2 md:space-y-0 font-bold bg-black backdrop-blur-md bg-opacity-50">
+      <div className="navbar sticky top-0 z-40 text-yellow-500 flex-col md:flex-row space-y-2 md:space-y-0 font-bold bg-gray-800 backdrop-blur-md bg-opacity-50">
         <div className="flex-1">
           <Link className="btn btn-ghost normal-case text-2xl" href="/">
             <img className="h-12 md:h-12" alt="Logo" src="/logo.png" />
           </Link>
           <ul className="menu menu-horizontal text-xl">
-            {links.map(({ label, path }) => (
-              <li key={path}>
-                <Link
-                  className={`${pathname.startsWith(path) ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
-                  href={path}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+            <li>
+              <Link
+                className={`${pathname.startsWith('/clusters') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
+                href="/clusters"
+              >
+                Clusters
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${pathname.startsWith('/account') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
+                href="/account"
+              >
+                Account
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${pathname.startsWith('/merchandisestore') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
+                href="/aboutus"
+              >
+                Merchandise-Store
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`${pathname.startsWith('/aboutus') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
+                href="/aboutus"
+              >
+                About Us
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="flex-none space-x-2">
@@ -100,10 +125,17 @@ export function UiLayout({
           <ClusterUiSelect />
         </div>
       </div>
+     
       {/* Hero section */}
       <AppHero title={undefined} subtitle={undefined} /> {/* Using the AppHero component */}
-      {/*ExploreEvent*/}
-      <ExploreEvent /> {/* Using the imported ExploreEvent component */}
+    
+      {/* ExploreEvent */}
+      <ExploreEvent /> 
+
+      <MerchandiseStore/>
+     
+      <AboutUs/>
+     
       <ClusterChecker>
         <AccountChecker />
       </ClusterChecker>
@@ -151,8 +183,9 @@ export function UiLayout({
               <h3 className="text-lg font-semibold mb-2 text-yellow-500">Quick Links</h3>
               <ul className="list-none space-y-2">
                 <li><a href="/home" className="text-yellow-500 hover:text-yellow-300">Home</a></li>
+                <li><a href="/aboutus" className="text-yellow-500 hover:text-yellow-300">About Us</a></li>
+                <li><a href="/exploreevent" className="text-yellow-500 hover:text-yellow-300">Explore Event</a></li>
                 <li><a href="/contact" className="text-yellow-500 hover:text-yellow-300">Contact</a></li>
-                <li><a href="/aboutus" className="text-yellow-500 hover:text-yellow-300">About us</a></li>
               </ul>
             </div>
 
@@ -175,5 +208,3 @@ export function UiLayout({
     </div>
   );
 }
-export { AppHero };
-
