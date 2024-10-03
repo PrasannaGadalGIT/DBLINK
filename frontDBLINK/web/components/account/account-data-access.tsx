@@ -13,8 +13,9 @@ import {
 } from '@solana/web3.js';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useTransactionToast } from '../ui/ui-layout';
+import { useTransactionToast } from '../utils/toast-utils'; // Ensure the correct path
 
+// Function to get balance
 export function useGetBalance({ address }: { address: PublicKey }) {
   const { connection } = useConnection();
 
@@ -24,6 +25,7 @@ export function useGetBalance({ address }: { address: PublicKey }) {
   });
 }
 
+// Function to get signatures
 export function useGetSignatures({ address }: { address: PublicKey }) {
   const { connection } = useConnection();
 
@@ -33,6 +35,7 @@ export function useGetSignatures({ address }: { address: PublicKey }) {
   });
 }
 
+// Function to get token accounts
 export function useGetTokenAccounts({ address }: { address: PublicKey }) {
   const { connection } = useConnection();
 
@@ -55,6 +58,7 @@ export function useGetTokenAccounts({ address }: { address: PublicKey }) {
   });
 }
 
+// Function to transfer SOL
 export function useTransferSol({ address }: { address: PublicKey }) {
   const { connection } = useConnection();
   const transactionToast = useTransactionToast();
@@ -79,18 +83,16 @@ export function useTransferSol({ address }: { address: PublicKey }) {
         // Send transaction and await for signature
         signature = await wallet.sendTransaction(transaction, connection);
 
-        // Send transaction and await for signature
+        // Confirm transaction
         await connection.confirmTransaction(
           { signature, ...latestBlockhash },
           'confirmed'
         );
 
-        console.log(signature);
         return signature;
-      } catch (error: unknown) {
-        console.log('error', `Transaction failed! ${error}`, signature);
-
-        return;
+      } catch (error) {
+        console.log('Transaction failed!', error, signature);
+        throw new Error(`Transaction failed! ${error}`);
       }
     },
     onSuccess: (signature) => {
@@ -118,6 +120,7 @@ export function useTransferSol({ address }: { address: PublicKey }) {
   });
 }
 
+// Function to request airdrop
 export function useRequestAirdrop({ address }: { address: PublicKey }) {
   const { connection } = useConnection();
   const transactionToast = useTransactionToast();
@@ -157,6 +160,7 @@ export function useRequestAirdrop({ address }: { address: PublicKey }) {
   });
 }
 
+// Function to create transaction
 async function createTransaction({
   publicKey,
   destination,
@@ -171,10 +175,8 @@ async function createTransaction({
   transaction: VersionedTransaction;
   latestBlockhash: { blockhash: string; lastValidBlockHeight: number };
 }> {
-  // Get the latest blockhash to use in our transaction
   const latestBlockhash = await connection.getLatestBlockhash();
 
-  // Create instructions to send, in this case a simple transfer
   const instructions = [
     SystemProgram.transfer({
       fromPubkey: publicKey,
@@ -183,14 +185,12 @@ async function createTransaction({
     }),
   ];
 
-  // Create a new TransactionMessage with version and compile it to legacy
   const messageLegacy = new TransactionMessage({
     payerKey: publicKey,
     recentBlockhash: latestBlockhash.blockhash,
     instructions,
   }).compileToLegacyMessage();
 
-  // Create a new VersionedTransaction which supports legacy and v0
   const transaction = new VersionedTransaction(messageLegacy);
 
   return {

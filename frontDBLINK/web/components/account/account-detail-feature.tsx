@@ -1,10 +1,8 @@
-'use client';
-
+// AccountDetailFeature.tsx
+"use client";
 import { PublicKey } from '@solana/web3.js';
 import { useMemo } from 'react';
-
 import { useParams } from 'next/navigation';
-
 import { ExplorerLink } from '../cluster/cluster-ui';
 import { AppHero, ellipsify } from '../ui/ui-layout';
 import {
@@ -26,6 +24,7 @@ export default function AccountDetailFeature() {
       console.log(`Invalid public key`, e);
     }
   }, [params]);
+
   if (!address) {
     return <div>Error loading account</div>;
   }

@@ -333,7 +333,9 @@ function ModalReceive({
   address: PublicKey;
 }) {
   return (
-    <AppModal title="Receive" hide={hide} show={show}>
+    <AppModal title="Receive" hide={hide} show={show} submit={function (): void {
+      throw new Error('Function not implemented.');
+    } } submitLabel={''} >
       <p>Receive assets by sending them to your public key:</p>
       <code>{address.toString()}</code>
     </AppModal>
@@ -357,7 +359,7 @@ function ModalAirdrop({
       hide={hide}
       show={show}
       title="Airdrop"
-      submitDisabled={!amount || mutation.isPending}
+   
       submitLabel="Request Airdrop"
       submit={() => mutation.mutateAsync(parseFloat(amount)).then(() => hide())}
     >
@@ -398,7 +400,6 @@ function ModalSend({
       hide={hide}
       show={show}
       title="Send"
-      submitDisabled={!destination || !amount || mutation.isPending}
       submitLabel="Send"
       submit={() => {
         mutation
