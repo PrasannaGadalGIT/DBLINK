@@ -28,7 +28,7 @@ const ExploreEvent: React.FC = () => {
       id: 4,
       image: '/guitarman.jpg',
       title: 'Guitar Man',
-      description: 'Enjoy acoustic sessions and soulful tunes. Having a blissful night is what we want to provide.',
+      description: 'Enjoyy acoustic sessions and soulful tunes. Having a blissful night is what we want to provide.',
     },
   ];
 
@@ -118,7 +118,7 @@ const ExploreEvent: React.FC = () => {
         {events.map((event, index) => (
           <div
             key={event.id}
-            ref={(el) => (eventRefs.current[index] = el)} // Assign the ref to each event
+            ref={(el) => { eventRefs.current[index] = el; }} // Assign the ref to each event
             className="bg-gray-900 text-yellow rounded-lg shadow-lg transition-transform duration-500 hover:scale-120 max-w-xs mx-auto"
           >
             <Image

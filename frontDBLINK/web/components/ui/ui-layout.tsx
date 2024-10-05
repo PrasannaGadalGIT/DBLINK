@@ -1,4 +1,6 @@
 "use client";
+import React, { Suspense, useState } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
 import logo from '../../public/logo.png';
 import facebookIcon from '../../public/facebook.png';
@@ -6,118 +8,73 @@ import instagramIcon from '../../public/instagram.png';
 import twitterIcon from '../../public/twitter.png';
 import linkedinIcon from '../../public/linkedin.png';
 import { WalletButton } from '../solana/solana-provider';
-import * as React from 'react';
-import { ReactNode, Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AccountChecker } from '../account/account-ui';
-import {
-  ClusterChecker,
-  ClusterUiSelect,
-  ExplorerLink,
-} from '../cluster/cluster-ui';
-import toast, { Toaster } from 'react-hot-toast';
-import { AppHero } from '../ui/AppHero'; 
-import ExploreEvent from'../ui/ExploreEvent';
+import { AppHero } from '../ui/AppHero';
+import ExploreEvent from '../ui/ExploreEvent';
 import AboutUs from '../AboutUs';
 import MerchandiseStore from '../MerchandiseStore';
-interface AppModalProps {
-  title: string; // The title of the modal
-  hide: () => void; // Function to hide the modal
-  show: boolean; // Boolean to control the visibility of the modal
-  submit: () => void; // Function to handle submit action
-  submitLabel: string; // Label for the submit button
-  children: React.ReactNode; // Children elements to render inside the modal
+import Contact from '../Contact';
+import toast, { Toaster } from 'react-hot-toast';
+import { AccountChecker } from '../account/account-ui';
+import { ClusterUiSelect, ClusterChecker } from '../cluster/cluster-ui';
+import HowItWorks from '../HowItWorks';
+import AppModal from '../ui/AppModal'; // Ensure AppModal is imported
+
+interface LinkProps {
+  label: string;
+  path: string;
 }
 
-export const AppModal: React.FC<AppModalProps> = ({ title, hide, show, submit, submitLabel, children }) => {
-  if (!show) return null;
+interface UiLayoutProps {
+  children: React.ReactNode;
+  links: LinkProps[];
+}
 
-  return (
-    <div className="modal">
-      <h2>{title}</h2>
-      <button onClick={hide}>Close</button>
-      <div>{children}</div>
-      <button onClick={submit}>{submitLabel}</button>
-    </div>
-  );
-};
+const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
+  const pathname = usePathname() || '';
+  const [email, setEmail] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
-const UILayout: React.FC = () => {
-  return (
-    <div>
-      <h1>UI Layout</h1>
-      <AppModal
-        title="Example Modal"
-        hide={() => {}}
-        show={false}
-        submit={() => {}}
-        submitLabel="Submit"
-      >
-        <p>This is an example modal content.</p>
-      </AppModal>
-    </div>
-  );
-};
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
 
-export default UILayout;
+  const handleSignUp = async () => {
+    if (email) {
+      try {
+        await axios.post('/api/signup', { email });
+        toast.success('Signed up successfully!');
+      } catch (error) {
+        toast.error('Failed to sign up. Please try again.');
+      }
+    } else {
+      toast.error('Please enter a valid email address.');
+    }
+  };
 
-export const ellipsify = (text: string, maxLength: number = 20): string => {
-  if (text.length > maxLength) {
-    return `${text.slice(0, maxLength)}...`;
-  }
-  return text;
-};
-
-export function UiLayout({
-  children,
-  links,
-}: {
-  children: ReactNode;
-  links: { label: string; path: string }[];
-}) {
-  const pathname = usePathname() || ''; // Provide a fallback to an empty string
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="flex flex-col bg-black">
       <div className="navbar sticky top-0 z-40 text-yellow-500 flex-col md:flex-row space-y-2 md:space-y-0 font-bold bg-gray-800 backdrop-blur-md bg-opacity-50">
         <div className="flex-1">
-          <Link className="btn btn-ghost normal-case text-2xl" href="/">
-            <img className="h-12 md:h-12" alt="Logo" src="/logo.png" />
-          </Link>
+          <a onClick={scrollToTop} className="btn btn-ghost normal-case text-xl font-bold mb-4" style={{ cursor: 'pointer' }}>
+            <img className="h-14 md:h-14 pb-2" alt="Logo" src="/logo.png" />Home
+          </a>
           <ul className="menu menu-horizontal text-xl">
-            <li>
-              <Link
-                className={`${pathname.startsWith('/clusters') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
-                href="/clusters"
-              >
-                Clusters
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={`${pathname.startsWith('/account') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
-                href="/account"
-              >
-                Account
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={`${pathname.startsWith('/merchandisestore') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
-                href="/aboutus"
-              >
-                Merchandise-Store
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={`${pathname.startsWith('/aboutus') ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
-                href="/aboutus"
-              >
-                About Us
-              </Link>
-            </li>
+            {links.map((link) => (
+              <li key={link.path}>
+                <Link
+                  className={`${pathname.startsWith(link.path) ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
+                  href={link.path}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="flex-none space-x-2">
@@ -125,17 +82,12 @@ export function UiLayout({
           <ClusterUiSelect />
         </div>
       </div>
-     
-      {/* Hero section */}
-      <AppHero title={undefined} subtitle={undefined} /> {/* Using the AppHero component */}
-    
-      {/* ExploreEvent */}
-      <ExploreEvent /> 
-
-      <MerchandiseStore/>
-     
-      <AboutUs/>
-     
+      <AppHero title={undefined} subtitle={undefined} />
+      <ExploreEvent />
+      <MerchandiseStore />
+      <AboutUs />
+      <HowItWorks />
+      <Contact />
       <ClusterChecker>
         <AccountChecker />
       </ClusterChecker>
@@ -154,7 +106,6 @@ export function UiLayout({
       <footer className="text-yellow-500 py-8" style={{ background: '#171717' }}>
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between">
-            {/* Left Section */}
             <div className="mb-6 md:w-1/3 text-center md:text-left">
               <div className="flex justify-center md:justify-start mb-2">
                 <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden">
@@ -177,8 +128,6 @@ export function UiLayout({
                 </a>
               </div>
             </div>
-
-            {/* Middle Section */}
             <div className="mb-6 md:w-1/3 text-center">
               <h3 className="text-lg font-semibold mb-2 text-yellow-500">Quick Links</h3>
               <ul className="list-none space-y-2">
@@ -188,8 +137,6 @@ export function UiLayout({
                 <li><a href="/contact" className="text-yellow-500 hover:text-yellow-300">Contact</a></li>
               </ul>
             </div>
-
-            {/* Right Section */}
             <div className="mb-6 md:w-1/3 text-center md:text-left">
               <h3 className="text-lg font-semibold mb-2 text-yellow-500">Sign Up for Emails</h3>
               <p className="mb-4 text-yellow-500">Get first dibs on new arrivals and advance notice on everything we do.</p>
@@ -198,13 +145,28 @@ export function UiLayout({
                   type="email"
                   placeholder="Enter your email"
                   className="p-2 rounded-l bg-gray-800 text-yellow-500"
+                  value={email}
+                  onChange={handleEmailChange}
                 />
-                <button className="px-4 bg-yellow-500 text-black rounded-r">Sign Up</button>
+                <button className="px-4 bg-yellow-500 text-black rounded-r" onClick={handleSignUp}>Sign Up</button>
               </div>
             </div>
           </div>
         </div>
       </footer>
+      
+      {isModalOpen && (
+        <AppModal title="My Modal" onClose={() => setIsModalOpen(false)} hide={function (): void {
+          throw new Error('Function not implemented.');
+        } } show={false} submit={function (): void {
+          throw new Error('Function not implemented.');
+        } } submitLabel={''}>
+          {/* Modal content here */}
+          <p>This is an example modal!</p>
+        </AppModal>
+      )}
     </div>
   );
-}
+};
+
+export default UiLayout; // Ensure UiLayout is exported as a default export

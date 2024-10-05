@@ -87,7 +87,7 @@ export const AppHero = ({ title, subtitle, children }: AppHeroProps) => {
               Explore Events
             </button>
             <button
-              className="px-4 py-2 bg-indigo-700 rounded text-white lg:text-lg font-bold hover:bg-indigo-500"
+              className="px-4 py-2 bg-purple-700 rounded text-white lg:text-lg font-bold hover:bg-purple-500"
               onClick={() => setModalOpen(true)}
             >
               Sign Up as an Artist

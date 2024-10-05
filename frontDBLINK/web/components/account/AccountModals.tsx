@@ -1,60 +1,70 @@
-// components/account/AccountModals.tsx
-"use client";
-import { AppModal } from '../ui/ui-layout';
-import { PublicKey } from '@solana/web3.js';
-import { useRequestAirdrop } from './account-data-access'; // Import your hook
-import { useState } from 'react';
+// AccountModal.tsx
+import React from 'react';
+import AppModal from '../ui/AppModal'; // Import your AppModal component
 
-function ModalReceive({
-  hide,
-  show,
-  address,
-}: {
-  hide: () => void;
-  show: boolean;
-  address: PublicKey;
-}) {
-  return (
-    <AppModal title="Receive" hide={hide} show={show} submit={() => {}} submitLabel="Receive">
-      <p>Receive assets by sending them to your public key:</p>
-      <code>{address.toString()}</code>
-    </AppModal>
-  );
+interface AccountModalProps {
+  title: string;
+  hide: () => void; // Function to close the modal
+  show: boolean; // Control modal visibility
+  submit: () => Promise<void>; // Function to handle form submission
+  submitLabel: string; // Label for the submit button
 }
 
-function ModalAirdrop({
+const AccountModal: React.FC<AccountModalProps> = ({
+  title,
   hide,
   show,
-  address,
-}: {
-  hide: () => void;
-  show: boolean;
-  address: PublicKey;
-}) {
-  const mutation = useRequestAirdrop({ address });
-  const [amount, setAmount] = useState('2');
-
+  submit,
+  submitLabel,
+}) => {
   return (
     <AppModal
-      hide={hide}
+      title={title}
+      onClose={hide}
       show={show}
-      title="Airdrop"
-      submitLabel="Request Airdrop"
-      submit={() => mutation.mutateAsync(parseFloat(amount)).then(() => hide())}
-    >
-      <input
-        disabled={mutation.isPending}
-        type="number"
-        step="any"
-        min="1"
-        placeholder="Amount"
-        className="input input-bordered w-full"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
+      submit={submit}
+      submitLabel={submitLabel} hide={function (): void {
+        throw new Error('Function not implemented.');
+      } }    >
+      {/* Modal content goes here */}
+      <div className="p-4">
+        <p>Please fill out the information below:</p>
+        <form onSubmit={(e) => {
+          e.preventDefault(); // Prevent default form submission
+          submit(); // Call the submit function passed as a prop
+        }}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              required
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              required
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          >
+            {submitLabel}
+          </button>
+        </form>
+      </div>
     </AppModal>
   );
-}
+};
 
-// Export your modals
-export { ModalReceive, ModalAirdrop };
+export default AccountModal;

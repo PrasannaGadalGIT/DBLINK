@@ -25,6 +25,7 @@ body {
 }
  .dropdown{
   color: black !important;
+  
 }
 
 .max-w-2xl h1{
@@ -35,4 +36,14 @@ body {
 }
 th{
   color: #f9c134;
+}
+.dropdown .btn.btn-primary {
+  background-color: rgb(150, 26, 211);
+  color: white; /* Change text color */
+  border-color: rgb(150, 26, 211);
+}
+
+/* Optional: Hover effect */
+.dropdown .btn.btn-primary:hover {
+  background-color: rgb(182, 78, 235);
 }
