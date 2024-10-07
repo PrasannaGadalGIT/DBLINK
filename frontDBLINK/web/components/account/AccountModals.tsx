@@ -1,7 +1,8 @@
 // AccountModal.tsx
 import React from 'react';
 import AppModal from '../ui/AppModal'; // Import your AppModal component
-
+export { default as ModalReceive } from './ModalReceive';
+export { default as ModalAirdrop } from './ModalAirdrop';
 interface AccountModalProps {
   title: string;
   hide: () => void; // Function to close the modal

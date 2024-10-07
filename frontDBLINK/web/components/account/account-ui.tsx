@@ -5,7 +5,8 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { IconRefresh } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { AppModal, ellipsify } from '../ui/ui-layout';
+import {  ellipsify } from '../ui/ui-layout';
+import AppModal from '../ui/AppModal';
 import { useCluster } from '../cluster/cluster-data-access';
 import { ExplorerLink } from '../cluster/cluster-ui';
 import {
@@ -15,7 +16,13 @@ import {
   useRequestAirdrop,
   useTransferSol,
 } from './account-data-access';
+const originalText = "This is a very long text that needs to be truncated.";
+const maxLength = 20; // Define the maximum length
 
+// Call ellipsify with both arguments
+const truncatedText = ellipsify(originalText, maxLength);
+
+console.log(truncatedText); // 
 export function AccountBalance({ address }: { address: PublicKey }) {
   const query = useGetBalance({ address });
 

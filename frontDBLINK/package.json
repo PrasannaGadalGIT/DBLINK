@@ -26,18 +26,22 @@
     "encoding": "0.1.13",
     "formik": "^2.4.6",
     "framer-motion": "^11.11.0",
+    "gsap": "^3.12.5",
     "jotai": "2.8.3",
     "lucide-react": "^0.446.0",
     "next": "^14.2.13",
-    "next-auth": "^4.24.8",
+    "next-auth": "^3.29.10",
     "nx": "^19.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "2.4.1",
+    "react-modal": "^3.16.1",
+    "react-reveal": "^1.2.2",
     "react-slick": "^0.30.2",
     "scrollreveal": "^4.0.9",
     "sharp": "^0.33.5",
     "slick-carousel": "^1.8.1",
+    "three": "^0.169.0",
     "tslib": "^2.3.0",
     "yup": "^1.4.0"
   },
@@ -52,8 +56,11 @@
     "@swc/helpers": "~0.5.11",
     "@types/react": "^18.3.1",
     "@types/react-dom": "18.3.0",
+    "@types/react-modal": "^3.16.3",
+    "@types/react-scroll": "^1.8.10",
     "@types/react-slick": "^0.23.13",
     "@types/scrollreveal": "^0.0.11",
+    "@types/three": "^0.169.0",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
     "autoprefixer": "10.4.13",
@@ -74,5 +81,8 @@
     "@nx/nx-darwin-x64": "18.0.4",
     "@nx/nx-linux-x64-gnu": "18.0.4",
     "@nx/nx-win32-x64-msvc": "18.0.4"
+  },
+  "resolutions": {
+    "bs58": "^4.0.1"
   }
 }

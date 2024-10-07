@@ -116,8 +116,8 @@ const AboutUs = () => {
           <div
             className={`w-full md:w-2/3 text-center md:text-left reveal-right ${index % 2 !== 0 ? "md:order-1" : ""}`}
           >
-            <h2 className="text-5xl font-bold mb-4">{section.title}</h2>
-            <p className="w-3/4 text-xl">{section.description}</p>
+            <h2 className="lg:text-5xl text-3xl font-bold mb-4">{section.title}</h2>
+            <p className="w-3/4 text-lg">{section.description}</p>
           </div>
         </div>
       ))}

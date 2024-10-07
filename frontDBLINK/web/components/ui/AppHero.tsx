@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import Artist from '../../public/Artist.png';
 import React, { useState, useEffect } from 'react'; 
-import SignInModal from './SignInModal';
+import RegisterModal from './RegisterModal';
 import ScrollReveal from 'scrollreveal'; // Import ScrollReveal
 
 interface AppHeroProps {
@@ -14,7 +14,8 @@ interface AppHeroProps {
 }
 
 export const AppHero = ({ title, subtitle, children }: AppHeroProps) => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isSignInModalOpen, setSignInModalOpen] = useState(false);
+  const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
   const [bgColor, setBgColor] = useState('#131313'); // Initial background color
 
   // Setup ScrollReveal on mount
@@ -80,17 +81,14 @@ export const AppHero = ({ title, subtitle, children }: AppHeroProps) => {
         </div>
         <div className={`absolute lg:top-20 lg:left-20 top-4 m-4 text-left text-yellow-500 animate-slide-in-left`}>
           <p className="text-4xl lg:text-5xl font-bold mb-4">"Create Your First Blink as an Artist"</p>
-          <h2 className="lg:text-4xl text-2xl font-bold mb-4">Discover and Attend Exclusive Events</h2>
-          <p className="lg:text-lg mb-6 font-semibold">Join Blink and stay updated.</p>
-          <div className="flex space-x-4">
-            <button className="px-4 py-2 bg-yellow-500 rounded text-black lg:text-lg font-bold hover:bg-yellow-300">
-              Explore Events
-            </button>
+          <h2 className="lg:text-4xl text-2xl font-bold mb-4 ml-4">Create, Mint and Sell your NFT Tickets</h2>
+          <p className="lg:text-lg mb-6 font-semibold ml-4">Join Blink and stay updated.</p>
+          <div className="flex space-x-4 ml-6">
             <button
               className="px-4 py-2 bg-purple-700 rounded text-white lg:text-lg font-bold hover:bg-purple-500"
-              onClick={() => setModalOpen(true)}
+              onClick={() => setRegisterModalOpen(true)}
             >
-              Sign Up as an Artist
+              Get Started
             </button>
           </div>
         </div>
@@ -99,8 +97,9 @@ export const AppHero = ({ title, subtitle, children }: AppHeroProps) => {
         </div>
       </div>
 
-      {/* Sign In Modal */}
-      <SignInModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+ 
+      {/* Register Modal */}
+      <RegisterModal isOpen={isRegisterModalOpen} onClose={() => setRegisterModalOpen(false)} />
     </div>
   );
 };

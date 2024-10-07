@@ -10,7 +10,7 @@ import linkedinIcon from '../../public/linkedin.png';
 import { WalletButton } from '../solana/solana-provider';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AppHero } from '../ui/AppHero';
+import { AppHero } from './AppHero';
 import ExploreEvent from '../ui/ExploreEvent';
 import AboutUs from '../AboutUs';
 import MerchandiseStore from '../MerchandiseStore';
@@ -20,6 +20,22 @@ import { AccountChecker } from '../account/account-ui';
 import { ClusterUiSelect, ClusterChecker } from '../cluster/cluster-ui';
 import HowItWorks from '../HowItWorks';
 import AppModal from '../ui/AppModal'; // Ensure AppModal is imported
+import Background from './Background';
+import PartnerLogo from './PartnerLogo';
+export const HeroSection: React.FC<{ title: string; subtitle?: string }> = ({ title, subtitle }) => {
+  return (
+      <div className="bg-gradient-to-r from-purple-600 to-blue-500 text-white p-8 text-center">
+          <h1 className="text-4xl font-bold">{title}</h1>
+          {subtitle && <p className="mt-4 text-xl">{subtitle}</p>}
+      </div>
+  );
+};
+export const ellipsify = (text: string, maxLength: number): string => {
+  if (text.length > maxLength) {
+      return text.slice(0, maxLength) + '...'; // Add ellipsis if text is too long
+  }
+  return text; // Return original text if it's within the length limit
+};
 
 interface LinkProps {
   label: string;
@@ -29,6 +45,9 @@ interface LinkProps {
 interface UiLayoutProps {
   children: React.ReactNode;
   links: LinkProps[];
+
+  title?: React.ReactNode; // Add this if it's supposed to be optional
+  subtitle?: React.ReactNode;
 }
 
 const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
@@ -59,16 +78,16 @@ const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
 
   return (
     <div className="flex flex-col bg-black">
-      <div className="navbar sticky top-0 z-40 text-yellow-500 flex-col md:flex-row space-y-2 md:space-y-0 font-bold bg-gray-800 backdrop-blur-md bg-opacity-50">
+      <div className="navbar sticky top-0 z-40 text-purple-600 flex-col md:flex-row space-y-2 md:space-y-0 font-bold bg-gray-800 backdrop-blur-md bg-opacity-50">
         <div className="flex-1">
-          <a onClick={scrollToTop} className="btn btn-ghost normal-case text-xl font-bold mb-4" style={{ cursor: 'pointer' }}>
-            <img className="h-14 md:h-14 pb-2" alt="Logo" src="/logo.png" />Home
+          <a onClick={scrollToTop} className="btn btn-ghost normal-case text-2xl font-bold mb-4 hover:text-yellow-500" style={{ cursor: 'pointer' }}>
+            <img className="h-16 w-16 pb-2" alt="Logo" src="/logo.png" />Home
           </a>
-          <ul className="menu menu-horizontal text-xl">
+          <ul className="menu menu-horizontal text-2xl">
             {links.map((link) => (
               <li key={link.path}>
                 <Link
-                  className={`${pathname.startsWith(link.path) ? 'text-yellow-500' : 'text-yellow-500'} hover:text-yellow-300`}
+                  className={`${pathname.startsWith(link.path) ? 'text-purple-600' : 'text-purple-600'} hover:text-yellow-300`}
                   href={link.path}
                 >
                   {link.label}
@@ -82,6 +101,7 @@ const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
           <ClusterUiSelect />
         </div>
       </div>
+      <Background/>
       <AppHero title={undefined} subtitle={undefined} />
       <ExploreEvent />
       <MerchandiseStore />
@@ -103,57 +123,77 @@ const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
         </Suspense>
         <Toaster position="bottom-right" />
       </div>
-      <footer className="text-yellow-500 py-8" style={{ background: '#171717' }}>
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between">
-            <div className="mb-6 md:w-1/3 text-center md:text-left">
-              <div className="flex justify-center md:justify-start mb-2">
-                <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden">
-                  <Image src={logo} alt="Company Logo" width={94} height={94} className="object-cover" />
-                </div>
-              </div>
-              <p className="text-yellow-500 mb-4">Connect with us to know more about us and to explore the activities that we do.</p>
-              <div className="flex justify-center md:justify-start space-x-4 mb-4">
-                <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-yellow-500" aria-label="Facebook">
-                  <Image src={facebookIcon} alt="Facebook" width={20} height={20} />
-                </a>
-                <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-yellow-500" aria-label="Instagram">
-                  <Image src={instagramIcon} alt="Instagram" width={20} height={20} />
-                </a>
-                <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-yellow-500" aria-label="Twitter">
-                  <Image src={twitterIcon} alt="Twitter" width={20} height={20} />
-                </a>
-                <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-yellow-500" aria-label="LinkedIn">
-                  <Image src={linkedinIcon} alt="LinkedIn" width={20} height={20} />
-                </a>
-              </div>
-            </div>
-            <div className="mb-6 md:w-1/3 text-center">
-              <h3 className="text-lg font-semibold mb-2 text-yellow-500">Quick Links</h3>
-              <ul className="list-none space-y-2">
-                <li><a href="/home" className="text-yellow-500 hover:text-yellow-300">Home</a></li>
-                <li><a href="/aboutus" className="text-yellow-500 hover:text-yellow-300">About Us</a></li>
-                <li><a href="/exploreevent" className="text-yellow-500 hover:text-yellow-300">Explore Event</a></li>
-                <li><a href="/contact" className="text-yellow-500 hover:text-yellow-300">Contact</a></li>
-              </ul>
-            </div>
-            <div className="mb-6 md:w-1/3 text-center md:text-left">
-              <h3 className="text-lg font-semibold mb-2 text-yellow-500">Sign Up for Emails</h3>
-              <p className="mb-4 text-yellow-500">Get first dibs on new arrivals and advance notice on everything we do.</p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="p-2 rounded-l bg-gray-800 text-yellow-500"
-                  value={email}
-                  onChange={handleEmailChange}
-                />
-                <button className="px-4 bg-yellow-500 text-black rounded-r" onClick={handleSignUp}>Sign Up</button>
-              </div>
-            </div>
+    
+      <PartnerLogo/>
+      <footer className="text-yellow-500 py-6 bg-slate-950">
+  <div className="container mx-auto px-6">
+    <div className="flex flex-col md:flex-row justify-between">
+      <div className="mb-6 md:w-1/3 text-center md:text-left">
+        <div className="flex justify-center md:justify-start mb-0">
+          <div className="flex items-center justify-center overflow-hidden">
+            <Image src={logo} alt="Company Logo" width={94} height={94} className="object-cover" />
           </div>
         </div>
-      </footer>
+        <p className="text-yellow-500 mb-4">Connect with us to know more about us and to explore the activities that we do.</p>
+        <div className="flex justify-center md:justify-start space-x-4 mb-4">
+          <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-purple-500" aria-label="Facebook">
+            <Image src={facebookIcon} alt="Facebook" width={20} height={20} />
+          </a>
+          <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-purple-500" aria-label="Instagram">
+            <Image src={instagramIcon} alt="Instagram" width={20} height={20} />
+          </a>
+          <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-purple-500" aria-label="Twitter">
+            <Image src={twitterIcon} alt="Twitter" width={20} height={20} />
+          </a>
+          <a href="#" className="rounded-full bg-yellow-100 p-2 hover:bg-purple-500" aria-label="LinkedIn">
+            <Image src={linkedinIcon} alt="LinkedIn" width={20} height={20} />
+          </a>
+        </div>
+      </div>
+      <div className="mb-6 md:w-1/3 text-center">
+        <h3 className="text-lg font-semibold mb-2 text-yellow-500">Quick Links</h3>
+        <ul className="list-none space-y-2">
+          <li><a href="/Account" className="text-yellow-500 hover:text-purple-600">Account</a></li>
+          <li><a href="/Cluster" className="text-yellow-500 hover:text-purple-600">Cluster</a></li>
+          <li><a href="/contact" className="text-yellow-500 hover:text-purple-600">Contact</a></li>
+        </ul>
+      </div>
+      <div className="mb-6 md:w-1/3 text-center md:text-left">
+        <h3 className="text-lg font-semibold mb-2 text-yellow-500">Sign Up for Emails</h3>
+        <p className="mb-4 text-yellow-500">Get first dibs on new arrivals and advance notice on everything we do.</p>
+        <div className="flex">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="p-2 rounded-l bg-gray-800 text-yellow-500"
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <button className="px-4 bg-purple-600 text-white rounded-r" onClick={handleSignUp}>Sign Up</button>
+        </div>
+      </div>
+    </div>
+    
+    {/* New Section for Contributors and Trademarks */}
+    <div className="">
+      <h3 className="text-3xl font-semibold  text-yellow-500 text-center underline mb-2">Project Contributors</h3>
+      <p className="text-yellow-500 mb-2 text-center text-lg">
+        The project NFT Ticketing was made possible by the contributions of:
+      </p>
+      <div className="flex flex-wrap justify-center space-x-4 text-purple-400 text-xl mb-4">
+        <span>•Prasanna Gadal</span>
+        <span>•Sameer Shrestha</span>
+        <span>•Punam Bomjan</span>
+     
+      </div>
+
+      <p className="text-yellow-500 mt-4  text-center border-t border-yellow-500">
+        &copy; {new Date().getFullYear()} NFT Blink. All rights reserved. Trademarks and brands are the property of their respective owners.
+      </p>
+    </div>
+  </div>
+</footer>
+
       
       {isModalOpen && (
         <AppModal title="My Modal" onClose={() => setIsModalOpen(false)} hide={function (): void {

@@ -32,7 +32,7 @@ const HowItWorks = () => {
 
     // Reveal the button
     if (buttonRef.current) {
-      sr.reveal(buttonRef.current, { interval: 200 });
+      sr.reveal(buttonRef.current, { interval: 100 });
     }
   }, [showMore]); // Re-trigger animations when showMore state changes
 

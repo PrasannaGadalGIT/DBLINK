@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br to-yellow-300 from-purple-600">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br to-yellow-300 from-purple-600 py-4 px-4">
       <div className="w-full max-w-4xl bg-white p-8 rounded shadow-md flex flex-col md:flex-row contact-form">
         {/* Left Side: Contact Info */}
         <div className="w-full md:w-1/2 p-4">
@@ -61,7 +61,7 @@ const Contact: React.FC = () => {
           {/* Location */}
           <div className="flex items-center mb-6">
             <MapPin className="h-6 w-6 mr-2 text-gray-600" />
-            <p className="text-lg">06453 Baneshowr, Kathmandu,Nepal</p>
+            <p className="text-lg">06453 Baneshowr, Kathmandu, Nepal</p>
           </div>
 
           {/* Social Media Icons */}
@@ -78,23 +78,21 @@ const Contact: React.FC = () => {
             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
               <Youtube className="h-8 w-8 text-red-600" />
             </a>
-            {/* Add more social media icons as needed */}
           </div>
         </div>
 
         {/* Right Side: Contact Form */}
         <div className="w-full md:w-1/2 p-4">
           <form onSubmit={formik.handleSubmit} className="space-y-4">
-            <label className="block ">
+            <label className="block">
               <input 
                 type="text"
                 name="name"
-                placeholder="Your Name  "
-                className="w-full px-4 py-2 border rounded-lg bg-yellow-500 text-white"
+                placeholder="Your Name"
+                className="w-full px-4 py-2 border rounded-lg bg-yellow-500 text-black"
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                style={{ color: '#FFD700' }} // Yellow color
               />
               {formik.touched.name && formik.errors.name ? (
                 <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
@@ -105,11 +103,10 @@ const Contact: React.FC = () => {
                 type="email"
                 name="email"
                 placeholder="Your Email"
-                className="w-full px-4 py-2 border rounded-lg bg-yellow-500 text-white"
+                className="w-full px-4 py-2 border rounded-lg bg-yellow-500 text-black"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                style={{ color: '#FFD700' }} // Yellow color
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
@@ -119,12 +116,11 @@ const Contact: React.FC = () => {
               <textarea
                 name="message"
                 placeholder="Your Message"
-                className="w-full px-4 py-2 border rounded-lg bg-yellow-500 text-white"
+                className="w-full px-4 py-2 border rounded-lg bg-yellow-500 text-black"
                 rows={5}
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                style={{ color: '#FFD700' }} // Yellow color
               />
               {formik.touched.message && formik.errors.message ? (
                 <div className="text-red-500 text-sm mt-1">{formik.errors.message}</div>

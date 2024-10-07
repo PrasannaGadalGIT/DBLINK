@@ -5,8 +5,9 @@
 html,
 body {
   height: 100%;
-  background-color: black;
+  background-color: rgba(50, 50, 50, 1);
   color: black !important;
+  scroll-behavior: smooth;
 }
 
 .wallet-adapter-button-trigger {
@@ -46,4 +47,32 @@ th{
 /* Optional: Hover effect */
 .dropdown .btn.btn-primary:hover {
   background-color: rgb(182, 78, 235);
+}
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+@keyframes scrollX {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scrollXReverse {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-scrollX {
+  animation: scrollX 30s linear infinite;
+}
+
+.animate-scrollXReverse {
+  animation: scrollXReverse 30s linear infinite;
 }

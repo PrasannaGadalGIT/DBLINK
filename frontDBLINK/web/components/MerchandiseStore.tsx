@@ -9,7 +9,7 @@ interface MerchandiseItem {
   title: string;
   description: string;
   image: string;
-  price: string;
+  
 }
 
 const merchandiseData: MerchandiseItem[] = [
@@ -18,28 +18,28 @@ const merchandiseData: MerchandiseItem[] = [
     title: 'Singer T-Shirt',
     description: 'High-quality cotton t-shirt featuring your favourite artist printout. Buy now and make your collections.',
     image: '/tshirt.jpg', // Add your image path
-    price: '$25.00',
+    
   },
   {
     id: 2,
     title: 'Posters',
     description: 'A stunning poster of the actor in their latest movies.',
     image: '/op.jpg', // Add your image path
-    price: '$15.00',
+    
   },
   {
     id: 3,
     title: 'Branded Shoes',
     description: 'Stylish and comfortable shoes perfect for any occasion.Style yourself with this brand shoes like your idols.',
     image: '/shoes.png', // Add your image path
-    price: '$30.00',
+   
   },
   {
     id: 4,
     title: 'Hoodies',
     description: 'Comfortable hoodie with different brands.Style yourself with stylish hoodie with comfort.',
     image: '/dance.jpg', // Add your image path
-    price: '$40.00',
+   
   },
 ];
 
@@ -138,7 +138,7 @@ const MerchandiseStore: React.FC = () => {
             <div className="p-4">
               <h2 className="text-xl font-bold">{item.title}</h2>
               <p>{item.description}</p>
-              <span className="text-lg font-bold">{item.price}</span>
+              
               <button
                 className="mt-4 w-full bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-400 transition"
                 onClick={() => handleViewClick(item.image)}
@@ -151,7 +151,7 @@ const MerchandiseStore: React.FC = () => {
       </div>
 
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 px-4 py-4">
           <div className="relative bg-white p-4 rounded-lg max-w-lg w-full">
             <button
               className="absolute top-2 right-2 text-yellow-500"
@@ -164,7 +164,7 @@ const MerchandiseStore: React.FC = () => {
               alt="Enlarged view"
               width={800}
               height={600}
-              className="rounded-lg"
+              className="rounded-lg  "
             />
           </div>
         </div>
