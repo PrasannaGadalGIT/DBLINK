@@ -22,6 +22,7 @@ import HowItWorks from '../HowItWorks';
 import AppModal from '../ui/AppModal'; // Ensure AppModal is imported
 import Background from './Background';
 import PartnerLogo from './PartnerLogo';
+import Comparison from './Comparison';
 export const HeroSection: React.FC<{ title: string; subtitle?: string }> = ({ title, subtitle }) => {
   return (
       <div className="bg-gradient-to-r from-purple-600 to-blue-500 text-white p-8 text-center">
@@ -30,12 +31,24 @@ export const HeroSection: React.FC<{ title: string; subtitle?: string }> = ({ ti
       </div>
   );
 };
-export const ellipsify = (text: string, maxLength: number): string => {
+// Define the EllipsifyProps type
+type EllipsifyProps = {
+  text: string;
+  maxLength?: number; // Optional property
+};
+
+// Use EllipsifyProps in the ellipsify function
+export function ellipsify({ text, maxLength = 20 }: EllipsifyProps): string {
   if (text.length > maxLength) {
       return text.slice(0, maxLength) + '...'; // Add ellipsis if text is too long
   }
   return text; // Return original text if it's within the length limit
-};
+}
+
+// Example usage
+const text = "This is a very long text that needs ellipsification";
+const ellipsifiedText = ellipsify({ text }); // You can omit maxLength here since it defaults to 20
+console.log(ellipsifiedText); // Output: "This is a very long..."
 
 interface LinkProps {
   label: string;
@@ -106,6 +119,7 @@ const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
       <ExploreEvent />
       <MerchandiseStore />
       <AboutUs />
+      <Comparison/>
       <HowItWorks />
       <Contact />
       <ClusterChecker>

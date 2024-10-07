@@ -16,6 +16,7 @@ export function ExplorerLink({
   path: string;
   label: string;
   className?: string;
+  labe:ReactNode;
 }) {
   const { getExplorerUrl } = useCluster();
   return (

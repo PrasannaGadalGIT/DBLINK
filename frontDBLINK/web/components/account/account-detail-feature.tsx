@@ -42,8 +42,8 @@ export default function AccountDetailFeature() {
   subtitle={<div className="my-4">
     <ExplorerLink
       path={`account/${address}`}
-      label={ellipsify(address.toString(), 10)} // Provide the correct second argument if necessary
-    />
+      label={ellipsify({ text: address.toString(), maxLength: 10 })} // Provide the correct second argument if necessary
+      labe={undefined}    />
   </div>}
   links={[]} // Keep the links prop if you have links to pass
 >

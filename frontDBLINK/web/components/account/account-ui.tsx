@@ -16,13 +16,7 @@ import {
   useRequestAirdrop,
   useTransferSol,
 } from './account-data-access';
-const originalText = "This is a very long text that needs to be truncated.";
-const maxLength = 20; // Define the maximum length
 
-// Call ellipsify with both arguments
-const truncatedText = ellipsify(originalText, maxLength);
-
-console.log(truncatedText); // 
 export function AccountBalance({ address }: { address: PublicKey }) {
   const query = useGetBalance({ address });
 
@@ -181,9 +175,8 @@ export function AccountTokens({ address }: { address: PublicKey }) {
                       <div className="flex space-x-2">
                         <span className="font-mono">
                           <ExplorerLink
-                            label={ellipsify(pubkey.toString())}
-                            path={`account/${pubkey.toString()}`}
-                          />
+                            label={ellipsify({ text: pubkey.toString() })}
+                            path={`account/${pubkey.toString()}`} labe={undefined}                          />
                         </span>
                       </div>
                     </td>
@@ -191,9 +184,8 @@ export function AccountTokens({ address }: { address: PublicKey }) {
                       <div className="flex space-x-2">
                         <span className="font-mono">
                           <ExplorerLink
-                            label={ellipsify(account.data.parsed.info.mint)}
-                            path={`account/${account.data.parsed.info.mint.toString()}`}
-                          />
+                            label={ellipsify({ text: account.data.parsed.info.mint })}
+                            path={`account/${account.data.parsed.info.mint.toString()}`} labe={undefined}                          />
                         </span>
                       </div>
                     </td>
@@ -277,14 +269,12 @@ export function AccountTransactions({ address }: { address: PublicKey }) {
                     <th className="font-mono">
                       <ExplorerLink
                         path={`tx/${item.signature}`}
-                        label={ellipsify(item.signature, 8)}
-                      />
+                        label={ellipsify({ text: item.signature, maxLength: 8 })} labe={undefined}                      />
                     </th>
                     <td className="font-mono text-right">
                       <ExplorerLink
                         path={`block/${item.slot}`}
-                        label={item.slot.toString()}
-                      />
+                        label={item.slot.toString()} labe={undefined}                      />
                     </td>
                     <td>
                       {new Date((item.blockTime ?? 0) * 1000).toISOString()}
