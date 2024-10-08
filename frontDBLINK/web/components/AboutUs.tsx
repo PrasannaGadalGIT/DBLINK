@@ -37,13 +37,16 @@ const aboutUsData = [
 const AboutUs = () => {
   const [bgColor, setBgColor] = useState(aboutUsData[0].bgColor);
   const refs = useRef<(HTMLDivElement | null)[]>(new Array(aboutUsData.length).fill(null));
+  const isClient = useRef(false); 
 
-  // Callback for setting refs
   const setRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
     refs.current[index] = el;
   }, []);
 
   useEffect(() => {
+    // Set isClient to true when the component mounts on the client side
+    isClient.current = true;
+
     const sr = ScrollReveal({
       origin: "left",
       distance: "50px",
@@ -70,7 +73,6 @@ const AboutUs = () => {
       }
     );
 
-    // Observe each ref element
     refs.current.forEach((ref) => {
       if (ref) {
         observer.observe(ref);
@@ -82,10 +84,9 @@ const AboutUs = () => {
     };
   }, []);
 
-  // Check if window is defined to run any browser-specific code
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      console.log("Window is defined. This code runs only on the client side.");
+    if (isClient.current) {
+      console.log("Client-side code executed");
     }
   }, []);
 

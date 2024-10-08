@@ -1,11 +1,9 @@
-// ui/AppHero.tsx
 'use client';
 
 import Image from 'next/image';
 import Artist from '../../public/Artist.png';
 import React, { useState, useEffect } from 'react'; 
 import RegisterModal from './RegisterModal';
-import ScrollReveal from 'scrollreveal'; // Import ScrollReveal
 
 interface AppHeroProps {
   title: React.ReactNode;
@@ -14,67 +12,73 @@ interface AppHeroProps {
 }
 
 export const AppHero = ({ title, subtitle, children }: AppHeroProps) => {
-  const [isSignInModalOpen, setSignInModalOpen] = useState(false);
   const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
-  const [bgColor, setBgColor] = useState('#131313'); // Initial background color
+  const [bgColor, setBgColor] = useState('#131313');
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Setup ScrollReveal on mount
   useEffect(() => {
-    // Initialize ScrollReveal
-    const sr = ScrollReveal();
+    setIsMounted(true);
 
-    // Reveal elements
-    sr.reveal('.animate-slide-in-left', {
-      origin: 'left',
-      distance: '50px',
-      duration: 1000,
-      delay: 400,
-      easing: 'ease-in-out',
-      opacity: 0,
-      scale: 0.9,
-      reset: true, // Enable reset to animate again on scroll back
-    });
+    // Only import and use ScrollReveal on the client side
+    if (typeof globalThis !== 'undefined') {
+      import('scrollreveal').then((ScrollReveal) => {
+        const sr = ScrollReveal.default();
 
-    sr.reveal('.animate-slide-in-right', {
-      origin: 'right',
-      distance: '50px',
-      duration: 1000,
-      delay: 300,
-      easing: 'ease-in-out',
-      opacity: 0,
-      scale: 0.9,
-      reset: true, // Enable reset to animate again on scroll back
-    });
+        sr.reveal('.animate-slide-in-left', {
+          origin: 'left',
+          distance: '50px',
+          duration: 1000,
+          delay: 400,
+          easing: 'ease-in-out',
+          opacity: 0,
+          scale: 0.9,
+          reset: true,
+        });
+
+        sr.reveal('.animate-slide-in-right', {
+          origin: 'right',
+          distance: '50px',
+          duration: 1000,
+          delay: 300,
+          easing: 'ease-in-out',
+          opacity: 0,
+          scale: 0.9,
+          reset: true,
+        });
+      });
+    }
   }, []);
 
-  // Handle scroll event to change background color
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollY = globalThis.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - globalThis.innerHeight;
       const scrollFraction = scrollY / maxScroll;
 
-      // Change background color based on scroll position (linear gradient)
       const newColor = `linear-gradient(rgba(50, 50, 50, 1),rgba(19, 19, 19, ${1 - scrollFraction}))`;
       setBgColor(newColor);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    if (typeof globalThis !== 'undefined') {
+      globalThis.addEventListener('scroll', handleScroll);
+      return () => {
+        globalThis.removeEventListener('scroll', handleScroll);
+      };
+    }
   }, []);
 
+  if (!isMounted) {
+    return null; // or a loading spinner
+  }
+
   return (
-    <div className="app-hero" style={{ background: bgColor }}> {/* Apply dynamic background */}
-      {/* Title and Subtitle */}
+    <div className="app-hero" style={{ background: bgColor }}>
       <div className="animate-slide-in-left">
         <h1 className="title">{title}</h1>
         <h2 className="subtitle">{subtitle}</h2>
         {children}
       </div>
 
-      {/* Background Image and Content */}
       <div className="relative min-h-[80vh] flex items-center justify-center">
         <div className={`absolute lg:bottom-0 lg:right-0 bottom-1 lg:w-3/5 lg:h-4/5 animate-slide-in-right`}>
           <Image src={Artist} alt="Artists" className="w-full h-full object-contain" />
@@ -97,8 +101,6 @@ export const AppHero = ({ title, subtitle, children }: AppHeroProps) => {
         </div>
       </div>
 
- 
-      {/* Register Modal */}
       <RegisterModal isOpen={isRegisterModalOpen} onClose={() => setRegisterModalOpen(false)} />
     </div>
   );
