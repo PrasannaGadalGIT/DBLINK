@@ -235,7 +235,7 @@ export default async function CreateandMintNFT( receiverWalletAddress : PublicKe
     name: collectionMetadataV3.data.name,
     symbol: collectionMetadataV3.data.symbol,
     // specific json metadata for each NFT
-    uri: "http://localhost:3000/description.json",
+    uri: "https://gateway.pinit.io/ipfs/Qmce1cJz92cTic3CZwW9V7oYTBnNhd1xCXCfP6dT6UiAPk/539.json",
     creators: [
       {
         address: payer.publicKey,

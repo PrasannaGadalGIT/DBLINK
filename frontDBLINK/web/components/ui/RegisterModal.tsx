@@ -2,7 +2,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { UploadButton } from "@/utils/uploadthing";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -54,7 +54,18 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
               <p className="text-red-500 text-xs">{formik.errors.title}</p>
             ) : null}
           </div>
-
+          <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
           {/* Genre Selection */}
           <div>
             <label className="block text-sm font-semibold mb-1 text-purple-700">Genre</label>
