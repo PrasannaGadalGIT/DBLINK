@@ -20,7 +20,8 @@ export async function GET(request: Request) {
       
       ],
       
-    }
+    },
+    
    
     
   }
@@ -28,30 +29,31 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request:Request) {
-  
+  console.log(request)  
   const postRequest : ActionPostRequest = await request.json()
   const userPubKey = postRequest.account
-  console.log(request)
-
+ 
   VerifyCreateAndMint(new PublicKey(userPubKey))
 
   const connection = new Connection(clusterApiUrl('devnet'))
   const tx = new Transaction()
-  const amount : number =1
-  const user = new PublicKey(userPubKey)
 
+  const user = new PublicKey(userPubKey)
+  console.log(request)
   const ix = SystemProgram.transfer({
     fromPubkey : user,
     toPubkey : new PublicKey('C2JZmf5ubGMmGKUrbEqJ87VwND57t8fTkRcx1Trjh1ji'),
-    lamports : 1
+    lamports : LAMPORTS_PER_SOL * 0.1
   })
 
+  tx.add(ix)
   tx.feePayer = new PublicKey(userPubKey)
   tx.recentBlockhash = (await connection.getLatestBlockhash({commitment : "finalized"})).blockhash
   const serialTX = tx.serialize({requireAllSignatures : false, verifySignatures : false}).toString("base64")
   console.log("Recent Blockhash : " + tx.recentBlockhash)
+
   const response : ActionPostResponse = {
-    transaction : "",
+    transaction : serialTX,
     message : userPubKey
   }
 

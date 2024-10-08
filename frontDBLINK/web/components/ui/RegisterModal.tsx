@@ -4,6 +4,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UploadButton } from "@/utils/uploadthing";
 
+
+
+
+
 interface RegisterModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -17,6 +21,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
       title: '',
       genre: '',
       description: '',
+      image : ''
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Title is required'),
@@ -24,11 +29,32 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
       description: Yup.string().required('Description is required'),
     }),
     onSubmit: async (values) => {
-   
+      try {
+        const response = await fetch('/api/registerArtist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
     
-      // Handle form submission
+        if (!response.ok) {
+          throw new Error('Failed to register artist');
+        }
+    
+        const responseData = await response.json();
+        console.log('Artist registered successfully:', responseData);
+    
+        // Close the modal or show a success message
+        onClose();
+    
+      } catch (error) {
+        console.error('Error registering artist:', error);
+      }
     },
+    
   });
+
 
   if (!isOpen) return null;
 
@@ -59,7 +85,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res);
-          alert("Upload Completed");
+          formik.values.image = res[0].url
         }}
         onUploadError={(error: Error) => {
           // Do something with the error.

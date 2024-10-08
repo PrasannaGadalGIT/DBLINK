@@ -10,7 +10,7 @@ const auth = (req: Request) => {
   // Here you would validate the token or user session as needed
   if (token) {
  
-    return { id: "fakeId" }; // Simulate user identification
+    return { id: "12121212112" }; // Simulate user identification
   }
 
   throw new UploadThingError("Unauthorized"); // If the token is missing or invalid

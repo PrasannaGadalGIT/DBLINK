@@ -20,7 +20,7 @@
  * - create a collection
  * - mint compressed NFTs to the tree
  */
-
+import { selectBlinkDetails } from '@/app/lib/selector'; 
 import { Keypair, LAMPORTS_PER_SOL, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import {
   ValidDepthSizePair,
@@ -47,7 +47,6 @@ import { createCollection, createTree, mintCompressedNFT } from "@/utils/compres
 
 // local import of the connection wrapper, to help with using the ReadApi
 import { WrapperConnection } from "@/ReadApi/WrapperConnection";
-
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -141,6 +140,8 @@ export default async function CreateandMintNFT( receiverWalletAddress : PublicKe
     canopyDepth,
   );
 
+  
+
   const storageCost = await connection.getMinimumBalanceForRentExemption(requiredSpace);
 
   // demonstrate data points for compressed NFTs
@@ -230,12 +231,12 @@ export default async function CreateandMintNFT( receiverWalletAddress : PublicKe
   /*
     Mint a single compressed NFT
   */
-
+   
   const compressedNFTMetadata: MetadataArgs = {
     name: collectionMetadataV3.data.name,
     symbol: collectionMetadataV3.data.symbol,
     // specific json metadata for each NFT
-    uri: "https://gateway.pinit.io/ipfs/Qmce1cJz92cTic3CZwW9V7oYTBnNhd1xCXCfP6dT6UiAPk/539.json",
+    uri: "ttps://utfs.io/f/52Ued1y6JLje8K3JYXD68nmZoRJ2hsXra1u7V4fj3B9UIWly",
     creators: [
       {
         address: payer.publicKey,
