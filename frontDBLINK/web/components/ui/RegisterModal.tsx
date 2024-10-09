@@ -3,6 +3,8 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UploadButton } from "@/utils/uploadthing";
+import { ToastContainer, toast } from 'react-toastify'; // Import Toast components
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toasts
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -10,13 +12,13 @@ interface RegisterModalProps {
 }
 
 const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
-
   // Formik hook
   const formik = useFormik({
     initialValues: {
       title: '',
       genre: '',
       description: '',
+      image: ''
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Title is required'),
@@ -24,9 +26,25 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
       description: Yup.string().required('Description is required'),
     }),
     onSubmit: async (values) => {
-   
-    
-      // Handle form submission
+      try {
+        const response = await fetch('http://localhost:3000/api/hello', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+
+        if (response.ok) {
+          toast.success(`http://localhost:3000/api/payBlink?title=${values.title}`); // Show success toast
+        } else {
+          toast.error('Registration failed. Please try again.'); // Show error toast
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        toast.error('Error submitting form'); // Show error toast
+      }
+      console.log(values);
     },
   });
 
@@ -37,7 +55,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
         <h2 className="text-3xl font-bold mb-6 text-center text-purple-700">Artist Registration</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
-          
           {/* Title Field */}
           <div>
             <label className="block text-sm font-semibold mb-1 text-purple-700">Title</label>
@@ -55,17 +72,14 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
             ) : null}
           </div>
           <UploadButton
-        endpoint="imageUploader"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              formik.setFieldValue('image', res[0]?.url);
+            }}
+            onUploadError={(error: Error) => {
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
           {/* Genre Selection */}
           <div>
             <label className="block text-sm font-semibold mb-1 text-purple-700">Genre</label>
@@ -90,7 +104,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
 
           {/* Bio Field */}
           <div>
-            <label className=" block text-sm font-semibold mb-1 text-purple-700">Bio</label>
+            <label className="block text-sm font-semibold mb-1 text-purple-700">Bio</label>
             <textarea
               name="description"
               className={`text-white w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-500 ${formik.touched.description && formik.errors.description ? 'border-red-500' : ''}`}
@@ -121,6 +135,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
           Close
         </button>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 };
