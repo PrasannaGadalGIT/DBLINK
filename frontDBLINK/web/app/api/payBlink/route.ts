@@ -24,8 +24,9 @@ export async function GET(request: Request) {
     links : {
       actions : [
         {
-          href : request.url,
-          label : "Pay"
+          href: request.url,
+          label: "Pay",
+          type: "transaction"
         },
       
       ],
@@ -62,9 +63,10 @@ export async function POST(request:Request) {
   const serialTX = tx.serialize({requireAllSignatures : false, verifySignatures : false}).toString("base64")
   console.log("Recent Blockhash : " + tx.recentBlockhash)
 
-  const response : ActionPostResponse = {
+  const response  = {
     transaction : serialTX,
-    message : userPubKey
+    message : userPubKey,
+    type : "ActionPostResponse"
   }
 
   return Response.json(response, {headers : ACTIONS_CORS_HEADERS})

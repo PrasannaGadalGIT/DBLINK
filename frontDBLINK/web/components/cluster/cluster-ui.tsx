@@ -1,149 +1,32 @@
-'use client';
-
-import { useConnection } from '@solana/wallet-adapter-react';
+import { useState } from 'react';
 import { IconTrash } from '@tabler/icons-react';
-import { useQuery } from '@tanstack/react-query';
-import { ReactNode, useState } from 'react';
 import AppModal from '../ui/AppModal'; // Ensure the path is correct
-import { ClusterNetwork, useCluster } from './cluster-data-access';
-import { Connection } from '@solana/web3.js';
-
-export function ExplorerLink({
-  path,
-  label,
-  className,
-}: {
-  path: string;
-  label: string;
-  className?: string;
-  labe:ReactNode;
-}) {
-  const { getExplorerUrl } = useCluster();
-  return (
-    <a
-      href={getExplorerUrl(path)}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={className ? className : `link font-mono`}
-    >
-      {label}
-    </a>
-  );
-}
-
-export function ClusterChecker({ children }: { children: ReactNode }) {
-  const { cluster } = useCluster();
-  const { connection } = useConnection();
-
-  const query = useQuery({
-    queryKey: ['version', { cluster, endpoint: connection.rpcEndpoint }],
-    queryFn: () => connection.getVersion(),
-    retry: 1,
-  });
-
-  if (query.isLoading) {
-    return null;
-  }
-
-  if (query.isError || !query.data) {
-    return (
-      <div className="alert alert-warning text-warning-content/80 rounded-none flex justify-center">
-        <span>
-          Error connecting to cluster <strong>{cluster.name}</strong>
-        </span>
-        <button className="btn btn-xs btn-neutral" onClick={() => query.refetch()}>
-          Refresh
-        </button>
-      </div>
-    );
-  }
-
-  return <>{children}</>;
-}
-
-export function ClusterUiSelect() {
-  const { clusters, setCluster, cluster } = useCluster();
-  
-  return (
-    <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-primary rounded-btn">
-        {cluster.name}
-      </label>
-      <ul
-        tabIndex={0}
-        className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4"
-      >
-        {clusters.map((item) => (
-          <li key={item.name}>
-            <button
-              className={`btn btn-sm ${item.active ? 'btn-primary' : 'btn-ghost'}`}
-              onClick={() => setCluster(item)}
-            >
-              {item.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export function ClusterUiModal({ hideModal, show }: { hideModal: () => void; show: boolean; }) {
-  const { addCluster } = useCluster();
-  const [name, setName] = useState('');
-  const [network, setNetwork] = useState<ClusterNetwork | undefined>();
-  const [endpoint, setEndpoint] = useState('');
-
-  return (
-    <AppModal
-      title="Add Cluster"
-      hide={hideModal}
-      show={show}
-      submit={() => {
-        try {
-          new Connection(endpoint);
-          if (name) {
-            addCluster({ name, network, endpoint });
-            hideModal();
-          } else {
-            console.log('Invalid cluster name');
-          }
-        } catch {
-          console.log('Invalid cluster endpoint');
-        }
-      }}
-      submitLabel="Save"
-    >
-      <div>
-        <input
-          type="text"
-          placeholder="Cluster Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="text"
-          placeholder="Endpoint"
-          value={endpoint}
-          onChange={(e) => setEndpoint(e.target.value)}
-          className="input input-bordered w-full mt-2"
-        />
-        {/* Add additional inputs for network if necessary */}
-      </div>
-    </AppModal>
-  );
-}
+import { useCluster } from './cluster-data-access';
 
 export function ClusterUiTable() {
   const { clusters, setCluster, deleteCluster } = useCluster();
+  const [clusterToDelete, setClusterToDelete] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleDeleteCluster = (cluster) => {
+    setClusterToDelete(cluster);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (clusterToDelete) {
+      deleteCluster(clusterToDelete);
+      setClusterToDelete(null);
+    }
+    setShowDeleteModal(false);
+  };
 
   return (
     <div className="overflow-x-auto">
       <table className="table border-4 border-separate border-base-300">
         <thead>
           <tr>
-            <th>Name/ Network / Endpoint</th>
+            <th>Name / Network / Endpoint</th>
             <th className="text-center">Actions</th>
           </tr>
         </thead>
@@ -173,10 +56,7 @@ export function ClusterUiTable() {
                 <button
                   disabled={item?.active}
                   className="btn btn-xs btn-default btn-outline"
-                  onClick={() => {
-                    if (!window?.confirm('Are you sure?')) return;
-                    deleteCluster(item);
-                  }}
+                  onClick={() => handleDeleteCluster(item)}
                 >
                   <IconTrash size={16} />
                 </button>
@@ -185,6 +65,19 @@ export function ClusterUiTable() {
           ))}
         </tbody>
       </table>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <AppModal
+          title="Confirm Delete"
+          show={showDeleteModal}
+          hide={() => setShowDeleteModal(false)}
+          submit={confirmDelete}
+          submitLabel="Delete"
+        >
+          <p>Are you sure you want to delete the cluster <strong>{clusterToDelete?.name}</strong>?</p>
+        </AppModal>
+      )}
     </div>
   );
 }
