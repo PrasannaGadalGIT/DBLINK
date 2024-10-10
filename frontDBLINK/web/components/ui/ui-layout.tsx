@@ -15,7 +15,7 @@ import AboutUs from '../AboutUs';
 import Contact from '../Contact';
 import toast, { Toaster } from 'react-hot-toast';
 import { AccountChecker } from '../account/account-ui';
-import { ClusterUiSelect, ClusterChecker } from '../cluster/cluster-ui';
+
 import HowItWorks from '../HowItWorks';
 import AppModal from '../ui/AppModal';
 import PartnerLogo from './PartnerLogo';
@@ -113,7 +113,7 @@ const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
         </div>
         <div className="flex-none space-x-2">
           <WalletButton />
-          <ClusterUiSelect />
+        
         </div>
       </div>
       <AppHero title={undefined} subtitle={undefined} />
@@ -121,9 +121,7 @@ const UiLayout: React.FC<UiLayoutProps> = ({ children, links }) => {
       <Comparison />
       <HowItWorks />
       <Contact />
-      <ClusterChecker>
-        <AccountChecker />
-      </ClusterChecker>
+    
       <div className="flex-grow mx-4 lg:mx-auto">
         <Suspense fallback={<div className="text-center my-32"><span className="loading loading-spinner loading-lg"></span></div>}>
           {children}

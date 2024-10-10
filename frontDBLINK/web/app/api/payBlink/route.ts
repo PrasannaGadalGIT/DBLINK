@@ -13,8 +13,8 @@ export async function GET(request: Request) {
   const title = reqUrl.searchParams.get('title')
   console.log("Title :  " + title)
   const data2 = await Artist.findOne({ title: title?.replace(/"/g, '') }); // Remove quotes from the title if present
-  console.log(data2);
-  const iconURL = new URL("/Artist.png", reqUrl.origin)
+ 
+  
   
   const response : ActionGetResponse = {
     icon : `${data2?.image}`,
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
         {
           href: request.url,
           label: "Pay",
-          type: "transaction"
+          
         },
       
       ],
@@ -40,17 +40,21 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request:Request) {
-  console.log(request)  
+ 
   const postRequest : ActionPostRequest = await request.json()
   const userPubKey = postRequest.account
- 
-  VerifyCreateAndMint(new PublicKey(userPubKey))
+  const reqUrl = new URL(request.url)
+  const title = reqUrl.searchParams.get('title')
+
+  const data2 = await Artist.findOne({ title: title?.replace(/"/g, '') });
+
+  VerifyCreateAndMint(new PublicKey(userPubKey), data2.image)
 
   const connection = new Connection(clusterApiUrl('devnet'))
   const tx = new Transaction()
 
   const user = new PublicKey(userPubKey)
-  console.log(request)
+ 
   const ix = SystemProgram.transfer({
     fromPubkey : user,
     toPubkey : new PublicKey('C2JZmf5ubGMmGKUrbEqJ87VwND57t8fTkRcx1Trjh1ji'),
@@ -63,10 +67,10 @@ export async function POST(request:Request) {
   const serialTX = tx.serialize({requireAllSignatures : false, verifySignatures : false}).toString("base64")
   console.log("Recent Blockhash : " + tx.recentBlockhash)
 
-  const response  = {
+  const response : ActionPostResponse = {
     transaction : serialTX,
     message : userPubKey,
-    type : "ActionPostResponse"
+  
   }
 
   return Response.json(response, {headers : ACTIONS_CORS_HEADERS})

@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ClusterUiSelect } from '../cluster/cluster-ui';
+
 import { WalletButton } from '../solana/solana-provider';
 import Image from 'next/image';
 import logo from '../../public/logo.png';
@@ -52,13 +52,13 @@ const Navbar: React.FC = () => {
         {/* Right Section: Buttons (always visible) */}
         <div className="hidden md:flex items-center space-x-2 flex-end">
           <WalletButton />
-          <ClusterUiSelect />
+     
         </div>
         
         {/* Always visible buttons on mobile */}
         <div className="md:hidden flex items-center space-x-2">
           <WalletButton />
-          <ClusterUiSelect />
+      
         </div>
       </div>
 

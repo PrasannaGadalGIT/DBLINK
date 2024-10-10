@@ -54,7 +54,7 @@ dotenv.config();
 // define some reusable balance values for tracking
 let initBalance: number, balance: number;
 
-export default async function CreateandMintNFT( receiverWalletAddress : PublicKey) {
+export default async function CreateandMintNFT( receiverWalletAddress : PublicKey, imageUrl : string) {
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
@@ -186,10 +186,10 @@ export default async function CreateandMintNFT( receiverWalletAddress : PublicKe
 
   const collectionMetadataV3: CreateMetadataAccountArgsV3 = {
     data: {
-      name: "Tickets to show",
-      symbol: "TTC",
+      name: "Guns and Roses",
+      symbol: "adasdasdasdsad",
       // specific json metadata for the collection
-      uri: "http://localhost:3000/description.json",
+      uri: imageUrl,
       sellerFeeBasisPoints: 100,
       creators: [
         {
@@ -235,7 +235,7 @@ export default async function CreateandMintNFT( receiverWalletAddress : PublicKe
     name: collectionMetadataV3.data.name,
     symbol: collectionMetadataV3.data.symbol,
     // specific json metadata for each NFT
-    uri: "https://gateway.pinit.io/ipfs/Qmce1cJz92cTic3CZwW9V7oYTBnNhd1xCXCfP6dT6UiAPk/539.json",
+    uri: collectionMetadataV3.data.uri,
     creators: [
       {
         address: payer.publicKey,
